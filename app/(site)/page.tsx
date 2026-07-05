@@ -59,6 +59,7 @@ export default async function HomePage() {
             loop
             playsInline
             className="absolute inset-0 w-full h-full object-cover opacity-45"
+            style={{ transform: 'scale(1.4)', transformOrigin: 'center top' }}
           />
         ) : (
           /* eslint-disable-next-line @next/next/no-img-element */
