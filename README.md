@@ -1,77 +1,75 @@
-# 케이앤에스 글로벌 행정사무소 홈페이지
+# 케이앤에스 글로벌 행정사무소 홈페이지 + 관리자 CMS
 
-공개 사이트(원페이지 스크롤 + 상세 페이지) + 관리자 CMS를 포함한 Next.js 웹사이트입니다.
+## 프로젝트 개요
+- **이름**: 케이앤에스 글로벌 행정사무소 홈페이지
+- **목표**: 인허가·외국인 비자·법인설립·각종 신고 등 행정 서비스 소개 및 온라인 상담 접수, 관리자 CMS 제공
+- **주요 기능**: 회사 소개, 서비스 안내, 자료실(공지/블로그), 온라인 상담신청, 관리자 대시보드/콘텐츠 관리
 
-- 공개 사이트: 히어로 · 신뢰 스트립 · 소개 · 서비스 안내 · 진행 절차 · 성과 지표 · WHY US ·
-  후기 · 공지/블로그(주제별 자료실) · 상담문의 폼 · 개인정보처리방침/이용약관
-- 관리자 콘솔(`/admin`): 실시간 대시보드, 상담문의 관리(CSV 내보내기), 서비스 풀 CRUD,
-  자료실(공지/블로그) 주제별 관리 + 이미지 업로드, **사이트 전면 컬러·히어로 이미지·문구 관리**, 비밀번호 변경
-- 상담문의: 서버 검증(허니팟·rate limit) → 저장 → **구글 시트 기록 + 관리자 알림 + 방문자 자동 응답메일**
+## 배포 URL
+- **프로덕션**: https://kns-global.wwwkoistkr.workers.dev
+- **관리자**: https://kns-global.wwwkoistkr.workers.dev/admin/login
 
-## 빠른 시작 (로컬 실행)
+## 기술 스택
+- **프레임워크**: Next.js 15 (App Router)
+- **배포**: Cloudflare Workers (OpenNext 어댑터 `@opennextjs/cloudflare`)
+- **데이터 저장소**: Cloudflare KV (`KNS_DB`) — 전체 사이트 데이터를 단일 JSON 문서로 저장
+- **파일 저장소**: Cloudflare R2 (`KNS_UPLOADS`) — 관리자 이미지/영상 업로드
+- **인증**: HMAC 서명 세션 쿠키 + bcrypt 비밀번호 해시
+- **스타일**: Tailwind CSS
 
-Node.js 18 이상이 설치되어 있어야 합니다 (https://nodejs.org).
+## 데이터 아키텍처
+- **데이터 모델**: Settings(회사정보/테마), ServiceCategory, Service, Inquiry(상담), Post(자료실), AdminUser
+- **저장 방식**: KV의 단일 키 `db`에 전체 DB(JSON)를 저장/로드. 최초 접속 시 업종 표준 콘텐츠 자동 시드
+- **업로드**: R2에 저장 후 `/uploads/<파일명>` 경로로 서빙
 
+## 주요 기능 진입 URI
+### 공개 사이트
+- `/` — 메인(원페이지: 히어로/서비스/절차/상담 등)
+- `/services/[slug]` — 서비스 상세 (예: `/services/visa`)
+- `/blog?topic=...` — 블로그(주제별 필터)
+- `/notice` — 공지사항
+- `/posts/[id]` — 게시글 상세(조회수 증가)
+- `/terms`, `/privacy` — 이용약관/개인정보처리방침
+
+### API
+- `POST /api/inquiries` — 상담 접수(공개, 레이트리밋/허니팟) · `GET`(관리자 목록)
+- `PATCH|DELETE /api/inquiries/[id]` — 상담 상태/메모/삭제(관리자)
+- `POST /api/auth` — 로그인 · `DELETE` 로그아웃
+- `GET|PATCH /api/settings` — 사이트 설정(관리자)
+- `GET|POST /api/services`, `PATCH|DELETE /api/services/[id]` — 서비스 관리
+- `POST /api/categories`, `PATCH|DELETE /api/categories/[id]` — 카테고리 관리
+- `GET|POST /api/posts`, `PATCH|DELETE /api/posts/[id]` — 자료실 관리
+- `GET /api/dashboard` — 실시간 대시보드 데이터
+- `PATCH /api/account` — 관리자 비밀번호 변경
+- `POST /api/upload` — 이미지/영상 업로드(R2, 관리자, 최대 50MB)
+- `GET /uploads/[name]` — R2 업로드 파일 서빙
+
+## 관리자 사용 안내
+1. `/admin/login` 접속
+2. 초기 계정: **아이디 `admin` / 비밀번호 `kns2026!admin`**
+3. ⚠️ **로그인 후 반드시 [계정] 메뉴에서 비밀번호를 변경**하세요. (로그인 5회 실패 시 15분 잠금)
+4. 대시보드에서 상담 현황, 서비스/자료실/설정 관리 가능
+
+## 로컬 개발
 ```bash
-cd kns-global
-copy .env.example .env    # macOS/리눅스는: cp .env.example .env
-npm install
-npm run dev
+npm install --legacy-peer-deps
+npm run dev            # Next.js 개발 서버 (http://localhost:3000)
+npm run preview        # OpenNext 빌드 + 로컬 Cloudflare 런타임 미리보기
 ```
+> 참고: 로컬에서 `wrangler dev`(Cloudflare 런타임)를 쓰려면 Node.js 22+ 권장. 실제 배포는 Cloudflare 빌드 파이프라인에서 처리됩니다.
 
-- 홈페이지: http://localhost:3000
-- 관리자: http://localhost:3000/admin/login
-  - 초기 계정: **admin / kns2026!admin** (.env에서 변경 가능)
-  - ⚠️ 최초 로그인 후 [계정 설정]에서 반드시 비밀번호를 변경하세요.
-
-첫 실행 시 `data/db.json` 파일이 자동 생성되며 표준 콘텐츠(서비스 9종, 자료실 11건)가 채워집니다.
-관리자 모드에서 모두 수정·교체할 수 있습니다.
-
-## 구글 시트 + 자동 응답메일 연동
-
-`docs/구글시트-연동-가이드.md`를 따라 약 10분이면 설정됩니다.
-연동 전에도 문의는 관리자 콘솔에 항상 저장됩니다.
-
-## 네이버 블로그 글 옮기기
-
-네이버 블로그는 외부 자동 수집이 차단되어 있어, 글은 다음 방법으로 옮깁니다:
-
-1. 관리자 콘솔 → 자료실 관리 → **새 글 쓰기**
-2. 블로그 글 본문을 복사해 붙여넣기 (HTML 태그 사용 가능)
-3. **🖼 이미지 삽입** 버튼으로 블로그 이미지(저장해 둔 파일)를 업로드
-4. **주제**를 입력해 자료실을 주제별로 분류 (예: 비자·체류, 인허가, 권리구제…)
-
-## 운영 배포
-
-서버가 필요한 앱입니다(파일 DB + 업로드). 권장:
-
-- **VPS/클라우드(가장 간단)**: Node 설치 → `npm install && npm run build && npm start` →
-  Nginx/Caddy로 HTTPS 연결. `data/`와 `public/uploads/`가 데이터이므로 백업하세요.
-- **Vercel 등 서버리스**: 파일 저장이 유지되지 않으므로 그대로는 부적합합니다.
-  이 경우 `prisma/schema.prisma`(참고용 포함)를 바탕으로 관리형 DB(PostgreSQL)로
-  이전하는 작업이 필요합니다.
-
-배포 시 `.env`의 `SESSION_SECRET`을 긴 무작위 문자열로 꼭 바꾸세요.
-
-## 폴더 구조
-
+## 배포
+```bash
+npm run deploy         # opennextjs-cloudflare build && deploy
 ```
-kns-global/
-├─ app/(site)/        공개 사이트 페이지
-├─ app/admin/         관리자 콘솔
-├─ app/api/           API (문의·인증·서비스·자료실·설정·업로드·대시보드)
-├─ components/        공용 컴포넌트
-├─ lib/               데이터 저장소(db.ts)·인증(auth.ts)·시트 연동(notify.ts)
-├─ data/db.json       (자동 생성) 사이트 데이터
-├─ public/uploads/    (자동 생성) 업로드 이미지
-├─ docs/              구글시트 연동 가이드 + Apps Script
-└─ prisma/            (참고용) PostgreSQL 이전 시 스키마
-```
+- **플랫폼**: Cloudflare Workers (본인 계정 / BYOK)
+- **상태**: ✅ Active
+- **바인딩**: KV `KNS_DB`, R2 `KNS_UPLOADS`
+- **시크릿**: `SESSION_SECRET`, `ADMIN_USERNAME`, `ADMIN_INITIAL_PASSWORD`, `SHEETS_WEBHOOK_URL`
+- **최종 업데이트**: 2026-07-05
 
-## 품질 체크리스트
-
-- 모든 화면 한글 · 반응형(모바일/태블릿/데스크톱/4K·8K: clamp 타이포 + 1440px 컨테이너 + SVG 벡터)
-- 섹션 간 상하 여백 0 (배경이 서로 맞닿는 연속 구성)
-- 접근성: 스킵 링크, 키보드 포커스, aria, 폼 라벨/오류 안내
-- 보안: /admin 미들웨어 보호, 세션 HMAC 서명 쿠키, bcrypt 해시, 로그인 5회 실패 잠금,
-  허니팟 + rate limit, 개인정보처리방침·이용약관 포함
+## 미구현 / 향후 개선 권장
+- 구글 시트 연동(`SHEETS_WEBHOOK_URL`)은 값 미설정 상태 — 필요 시 Apps Script 웹앱 URL을 시크릿으로 등록
+- 사용자 지정 도메인 연결 (Cloudflare `wrangler` 또는 대시보드에서 커스텀 도메인 바인딩)
+- 검색엔진 인증 메타(네이버/구글) `app/layout.tsx`의 verification 항목에 추가
+- KV 단일 문서 방식은 소규모에 최적화 — 대규모 확장 시 Cloudflare D1(SQLite)로 이전 권장(`prisma/schema.prisma` 설계 참조)
