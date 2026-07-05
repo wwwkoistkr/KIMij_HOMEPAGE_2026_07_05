@@ -1,0 +1,99 @@
+// 케이앤에스 글로벌 행정사무소 - 데이터 모델 (설계도 §4 기반)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// 회사정보 + 테마(컬러·이미지·문구) 단일 레코드
+model Settings {
+  id            Int      @id @default(1)
+  companyName   String   @default("케이앤에스 글로벌 행정사무소")
+  ceoName       String   @default("")
+  phone         String   @default("010-3547-1860")
+  address       String   @default("경기도 안양시 만안구 삼덕로 42")
+  email         String   @default("ijkim4756@naver.com")
+  bizRegNo      String   @default("")
+  businessHours String   @default("평일 09:00 ~ 18:00")
+  kakaoUrl      String   @default("")
+  greeting      String   @default("")
+  heroBadge     String   @default("믿을 수 있는 행정 파트너")
+  heroTitle     String   @default("복잡한 행정,\n케이앤에스가 대신합니다")
+  heroSubtitle  String   @default("인허가·외국인 비자·법인설립·각종 신고를 한 번에 해결하는 검증된 행정 파트너")
+  heroImageUrl  String   @default("")
+  themeJson     String   @default("{}") // 테마 컬러 JSON
+  statsJson     String   @default("[]") // 성과 지표 JSON
+  updatedAt     DateTime @updatedAt
+}
+
+model ServiceCategory {
+  id        Int       @id @default(autoincrement())
+  name      String
+  sortOrder Int       @default(0)
+  services  Service[]
+}
+
+model Service {
+  id          Int             @id @default(autoincrement())
+  categoryId  Int
+  category    ServiceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  title       String
+  slug        String          @unique
+  icon        String          @default("📋")
+  summary     String          @default("")
+  overview    String          @default("")
+  target      String          @default("")
+  documents   String          @default("")
+  processJson String          @default("[]")
+  priceInfo   String          @default("")
+  faqJson     String          @default("[]")
+  sortOrder   Int             @default(0)
+  isPublished Boolean         @default(true)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model Inquiry {
+  id           Int       @id @default(autoincrement())
+  name         String
+  phone        String
+  email        String    @default("")
+  category     String    @default("기타")
+  message      String
+  agreePrivacy Boolean   @default(false)
+  status       String    @default("신규") // 신규 / 연락완료 / 종결
+  adminMemo    String    @default("")
+  sourceIp     String    @default("")
+  userAgent    String    @default("")
+  createdAt    DateTime  @default(now())
+  handledAt    DateTime?
+}
+
+// 자료실(공지/블로그) - topic으로 주제별 분류
+model Post {
+  id           Int      @id @default(autoincrement())
+  type         String   @default("blog") // notice | blog
+  topic        String   @default("일반") // 주제별 분류
+  title        String
+  content      String   @default("")
+  thumbnailUrl String   @default("")
+  isPinned     Boolean  @default(false)
+  isPublished  Boolean  @default(true)
+  viewCount    Int      @default(0)
+  publishedAt  DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model AdminUser {
+  id             Int       @id @default(autoincrement())
+  username       String    @unique
+  passwordHash   String
+  failedAttempts Int       @default(0)
+  lockedUntil    DateTime?
+  lastLoginAt    DateTime?
+  createdAt      DateTime  @default(now())
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kns-global",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-03-25",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  // KV: 사이트 전체 데이터(db.json 단일 문서) 저장
+  "kv_namespaces": [
+    {
+      "binding": "KNS_DB",
+      "id": "PLACEHOLDER_KV_ID"
+    }
+  ],
+  // R2: 관리자 이미지/영상 업로드 저장
+  "r2_buckets": [
+    {
+      "binding": "KNS_UPLOADS",
+      "bucket_name": "kns-global-uploads"
+    }
+  ]
+}

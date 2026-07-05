@@ -1,0 +1,16 @@
+node_modules/
+.next/
+.open-next/
+.wrangler/
+.env
+.dev.vars
+data/
+public/uploads/
+*.tsbuildinfo
+next-env.d.ts
+
+# Backup files
+*.backup
+*.bak
+*.tar.gz
+*.zip
