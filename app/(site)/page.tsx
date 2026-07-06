@@ -91,10 +91,12 @@ export default async function HomePage() {
               </div>
             </Reveal>
           </div>
-          {/* 우: 대표 사진 (관리자 [사이트 설정]에서 업로드) */}
-          <Reveal delay={300} className="flex justify-center lg:justify-end">
-            <Portrait src={s.heroPortraitUrl || '/images/ceo.jpg'} alt={`${s.companyName} 대표`} />
-          </Reveal>
+          {/* 우: 대표 사진 (관리자 [사이트 설정]에서 업로드 시에만 표시) */}
+          {s.heroPortraitUrl && (
+            <Reveal delay={300} className="flex justify-center lg:justify-end">
+              <Portrait src={s.heroPortraitUrl} alt={`${s.companyName} 대표`} />
+            </Reveal>
+          )}
         </div>
       </section>
 

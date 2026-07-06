@@ -184,3 +184,16 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
   );
 }
 
+function Field({ label, v, on }: { label: string; v: string; on: (v: string) => void }) {
+  return (
+    <div>
+      <label className="label">{label}</label>
+      <input
+        className="admin-input"
+        value={v ?? ''}
+        onChange={(e) => on(e.target.value)}
+      />
+    </div>
+  );
+}
+

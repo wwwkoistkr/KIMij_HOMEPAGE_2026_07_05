@@ -134,7 +134,7 @@ function seedData(): DB {
     heroTitle: '복잡한 행정,\n케이앤에스가 대신합니다',
     heroSubtitle: '인허가 · 외국인 비자·체류 · 법인설립 · 각종 신고를 한 번에 해결하는 검증된 글로벌 행정 파트너',
     heroImageUrl: '',
-    heroPortraitUrl: '/images/ceo.jpg',
+    heroPortraitUrl: '',
     theme: { ...DEFAULT_THEME },
     stats: [
       { label: '누적 상담', value: 3200, suffix: '+' },
