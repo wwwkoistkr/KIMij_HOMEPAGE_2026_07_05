@@ -105,18 +105,30 @@ export default function SettingsAdmin() {
             </>
           )}
         </div>
-        <div className="mt-4 flex items-center gap-3 flex-wrap border-t border-[var(--color-line)] pt-4">
-          <label className="admin-btn admin-btn-ghost cursor-pointer">
-            👤 대표(프로필) 사진 업로드 — 히어로 우측에 표시
-            <input type="file" accept="image/*" className="hidden" onChange={uploadPortrait} />
-          </label>
-          {s.heroPortraitUrl && (
-            <>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={s.heroPortraitUrl} alt="대표 사진" className="h-16 rounded border" />
-              <button className="admin-btn admin-btn-danger" onClick={() => set('heroPortraitUrl', '')}>사진 제거 (히어로에서 숨김)</button>
-            </>
-          )}
+        <div className="mt-4 border-t border-[var(--color-line)] pt-4">
+          <p className="text-sm font-semibold text-[var(--color-navy-900)] mb-1">👤 대표 행정사 사진 (히어로 화면 오른쪽에 표시)</p>
+          <p className="text-xs text-gray-500 mb-3">
+            PC에 있는 <code className="px-1 bg-gray-100 rounded">ceo.jpg</code> 파일을 아래 버튼으로 올리면
+            메인 화면 오른쪽 대표 사진 자리에 즉시 반영됩니다. (jpg·png·webp 등, 최대 50MB)
+          </p>
+          <div className="flex items-center gap-4 flex-wrap">
+            <label className="admin-btn admin-btn-primary cursor-pointer">
+              📁 대표 사진 선택 · 업로드
+              <input type="file" accept="image/*" className="hidden" onChange={uploadPortrait} />
+            </label>
+            {s.heroPortraitUrl ? (
+              <>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={s.heroPortraitUrl} alt="대표 사진 미리보기" className="h-24 w-24 object-cover rounded-lg border-2 border-[var(--color-accent)] shadow" />
+                <div className="flex flex-col gap-2">
+                  <span className="text-xs text-green-600 font-medium">✅ 업로드됨 — 아래 &lsquo;전체 저장&rsquo;을 눌러 반영하세요</span>
+                  <button className="admin-btn admin-btn-danger !py-1 !text-sm" onClick={() => set('heroPortraitUrl', '')}>사진 제거 (히어로에서 숨김)</button>
+                </div>
+              </>
+            ) : (
+              <span className="text-xs text-gray-400">아직 등록된 대표 사진이 없습니다.</span>
+            )}
+          </div>
         </div>
       </Card>
 
