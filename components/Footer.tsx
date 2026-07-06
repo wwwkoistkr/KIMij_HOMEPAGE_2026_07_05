@@ -34,9 +34,15 @@ export default function Footer({ s }: { s: Settings }) {
             않습니다. 구체적인 사안은 반드시 상담을 통해 확인하시기 바랍니다. 본 사이트의 모든 콘텐츠는 저작권법의
             보호를 받습니다.
           </p>
-          <div className="flex gap-4 mt-4 text-sm">
+          <div className="flex flex-wrap gap-4 mt-4 text-sm items-center">
             <Link href="/privacy" className="underline hover:text-white">개인정보처리방침</Link>
             <Link href="/terms" className="underline hover:text-white">이용약관</Link>
+            <Link
+              href="/admin/login"
+              className="ml-auto inline-flex items-center gap-1 rounded-full border border-white/20 px-3 py-1 text-xs text-white/60 hover:text-white hover:border-white/50 transition-colors"
+            >
+              <span aria-hidden="true">🔐</span> 관리자
+            </Link>
           </div>
         </div>
       </div>
