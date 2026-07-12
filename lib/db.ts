@@ -122,7 +122,7 @@ function seedData(): DB {
     ceoName: '',
     phone: '010-3547-1860',
     address: '경기도 안양시 만안구 삼덕로 42',
-    email: 'ijkim4756@naver.com',
+    email: 'ijkim4756@gmail.com',
     bizRegNo: '',
     businessHours: '평일 09:00 ~ 18:00 (주말·공휴일 사전예약)',
     kakaoUrl: '',

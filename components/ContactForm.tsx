@@ -51,13 +51,13 @@ export default function ContactForm() {
         <div>
           <label className="label" htmlFor="cf-name">이름 <span className="text-red-500">*</span></label>
           <input id="cf-name" className="field" value={form.name} onChange={(e) => set('name', e.target.value)}
-            placeholder="홍길동" aria-invalid={!!errors.name} />
+            placeholder="김일준" aria-invalid={!!errors.name} />
           {errors.name && <p className="text-red-500 text-sm mt-1" role="alert">{errors.name}</p>}
         </div>
         <div>
           <label className="label" htmlFor="cf-phone">연락처 <span className="text-red-500">*</span></label>
           <input id="cf-phone" className="field" value={form.phone} onChange={(e) => set('phone', e.target.value)}
-            placeholder="010-0000-0000" inputMode="tel" aria-invalid={!!errors.phone} />
+            placeholder="010-3547-1860" inputMode="tel" aria-invalid={!!errors.phone} />
           {errors.phone && <p className="text-red-500 text-sm mt-1" role="alert">{errors.phone}</p>}
         </div>
       </div>
@@ -65,7 +65,7 @@ export default function ContactForm() {
         <div>
           <label className="label" htmlFor="cf-email">이메일 (선택)</label>
           <input id="cf-email" className="field" type="email" value={form.email} onChange={(e) => set('email', e.target.value)}
-            placeholder="example@email.com" aria-invalid={!!errors.email} />
+            placeholder="ijkim4756@gmail.com" aria-invalid={!!errors.email} />
           {errors.email && <p className="text-red-500 text-sm mt-1" role="alert">{errors.email}</p>}
         </div>
         <div>
@@ -78,7 +78,7 @@ export default function ContactForm() {
       <div>
         <label className="label" htmlFor="cf-msg">문의 내용 <span className="text-red-500">*</span></label>
         <textarea id="cf-msg" className="field min-h-[130px]" value={form.message} onChange={(e) => set('message', e.target.value)}
-          placeholder="문의하실 내용을 자세히 적어 주세요." aria-invalid={!!errors.message} />
+          placeholder="문의할 내용을 입력하세요. (예: 외국인 근로자 고용허가 절차와 필요 서류가 궁금합니다.)" aria-invalid={!!errors.message} />
         {errors.message && <p className="text-red-500 text-sm mt-1" role="alert">{errors.message}</p>}
       </div>
 
