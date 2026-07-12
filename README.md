@@ -6,8 +6,15 @@
 - **주요 기능**: 회사 소개, 서비스 안내, 자료실(공지/블로그), 온라인 상담신청, 관리자 대시보드/콘텐츠 관리
 
 ## 배포 URL
-- **프로덕션**: https://kns-global.wwwkoistkr.workers.dev
-- **관리자**: https://kns-global.wwwkoistkr.workers.dev/admin/login
+- **정식 도메인 (프로덕션)**: https://k-globaladmin.com (및 https://www.k-globaladmin.com)
+- **관리자**: https://k-globaladmin.com/admin/login
+- **워커 기본 주소(백업)**: https://kns-global.wwwkoistkr.workers.dev
+
+### 도메인 연결 정보
+- **도메인 등록기관**: 가비아(Gabia) — `k-globaladmin.com` (만기 2027-07-09)
+- **DNS/네임서버**: Cloudflare (`indie.ns.cloudflare.com`, `michael.ns.cloudflare.com`)
+- **연결 방식**: 가비아 도메인 → Cloudflare 네임서버 이전 → Workers 커스텀 도메인 바인딩 (`kns-global` 워커에 `k-globaladmin.com` + `www.k-globaladmin.com` 연결)
+- **SSL**: Cloudflare 자동 발급/갱신 (HTTPS 적용 완료)
 
 ## 기술 스택
 - **프레임워크**: Next.js 15 (App Router)
@@ -70,6 +77,6 @@ npm run deploy         # opennextjs-cloudflare build && deploy
 
 ## 미구현 / 향후 개선 권장
 - 구글 시트 연동(`SHEETS_WEBHOOK_URL`)은 값 미설정 상태 — 필요 시 Apps Script 웹앱 URL을 시크릿으로 등록
-- 사용자 지정 도메인 연결 (Cloudflare `wrangler` 또는 대시보드에서 커스텀 도메인 바인딩)
+- ~~사용자 지정 도메인 연결~~ ✅ 완료 — `k-globaladmin.com` / `www.k-globaladmin.com` (2026-07-12)
 - 검색엔진 인증 메타(네이버/구글) `app/layout.tsx`의 verification 항목에 추가
 - KV 단일 문서 방식은 소규모에 최적화 — 대규모 확장 시 Cloudflare D1(SQLite)로 이전 권장(`prisma/schema.prisma` 설계 참조)
