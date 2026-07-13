@@ -17,9 +17,10 @@ function doPost(e) {
 
     // 1) 구글 시트에 기록
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName(SHEET_NAME);
-    if (!sheet) {
-      sheet = ss.insertSheet(SHEET_NAME);
+    // 지정한 이름의 탭이 있으면 사용, 없으면 현재 열려있는 첫 번째(활성) 탭에 기록
+    var sheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
+    // 헤더가 비어있으면(첫 사용) 제목 줄 자동 생성
+    if (sheet.getLastRow() === 0) {
       sheet.appendRow(['접수일시', '이름', '연락처', '이메일', '문의분야', '문의내용']);
       sheet.getRange(1, 1, 1, 6).setFontWeight('bold');
     }
