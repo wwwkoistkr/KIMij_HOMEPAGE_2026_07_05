@@ -27,7 +27,7 @@ async function main() {
       companyName: '케이앤에스 글로벌 행정사무소',
       phone: '010-3547-1860',
       address: '경기도 안양시 만안구 삼덕로 42',
-      email: 'ijkim4756@gmail.com',
+      email: 'kglobal4756@gmail.com',
       businessHours: '평일 09:00 ~ 18:00 (주말·공휴일 사전예약)',
       greeting:
         '안녕하십니까. 케이앤에스 글로벌 행정사무소 대표 행정사입니다.\n' +

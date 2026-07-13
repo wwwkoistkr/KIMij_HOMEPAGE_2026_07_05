@@ -65,7 +65,7 @@ export default function ContactForm() {
         <div>
           <label className="label" htmlFor="cf-email">이메일 (선택)</label>
           <input id="cf-email" className="field" type="email" value={form.email} onChange={(e) => set('email', e.target.value)}
-            placeholder="ijkim4756@gmail.com" aria-invalid={!!errors.email} />
+            placeholder="kglobal4756@gmail.com" aria-invalid={!!errors.email} />
           {errors.email && <p className="text-red-500 text-sm mt-1" role="alert">{errors.email}</p>}
         </div>
         <div>

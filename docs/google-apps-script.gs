@@ -6,7 +6,7 @@
  */
 
 // ===== 설정 (필요 시 수정) =====
-var ADMIN_EMAIL = 'ijkim4756@gmail.com';           // 새 문의 알림을 받을 관리자 메일
+var ADMIN_EMAIL = 'kglobal4756@gmail.com';           // 새 문의 알림을 받을 관리자 메일
 var OFFICE_NAME = '케이앤에스 글로벌 행정사무소';
 var OFFICE_PHONE = '010-3547-1860';
 var SHEET_NAME = '상담문의';                        // 기록할 시트 탭 이름
