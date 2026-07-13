@@ -11,6 +11,10 @@
   "observability": {
     "enabled": true
   },
+  // 환경변수: 상담문의 → 구글 시트 기록 + 자동 응답메일 (Google Apps Script 웹앱 URL)
+  "vars": {
+    "SHEETS_WEBHOOK_URL": "https://script.google.com/macros/s/AKfycbySvTGBnJskAod7i4yAXiTY6-sP9RE6N8bQOXv955LdgVIiqlDEv0RfWnXiLm7_cPJJlA/exec"
+  },
   // KV: 사이트 전체 데이터(db.json 단일 문서) 저장
   "kv_namespaces": [
     {
