@@ -20,7 +20,9 @@ const WHY = [
   { icon: '⚡', title: '신속한 처리', desc: '접수 당일 검토를 시작하고, 진행 상황을 단계별로 알려드립니다.' },
   { icon: '🎯', title: '정확한 진단', desc: '착수 전에 요건을 먼저 진단해 불필요한 비용과 시행착오를 막습니다.' },
   { icon: '🌏', title: '글로벌 전문성', desc: '외국인 비자·체류, 귀화, 외국인투자 등 국제 업무에 강합니다.' },
-  { icon: '🔒', title: '철저한 보안', desc: '의뢰인의 개인정보와 서류를 개인정보보호법에 따라 안전하게 관리합니다.' }
+  { icon: '🔒', title: '철저한 보안', desc: '의뢰인의 개인정보와 서류를 개인정보보호법에 따라 안전하게 관리합니다.' },
+  { icon: '💬', title: '친절한 상담', desc: '어려운 행정 용어도 쉽게 풀어 설명하고, 끝까지 함께합니다.' },
+  { icon: '💰', title: '합리적 비용', desc: '착수 전 예상 비용을 투명하게 안내하여 부담 없이 진행합니다.' }
 ];
 
 const PROCESS = [
@@ -245,10 +247,10 @@ export default async function HomePage() {
               <h2 className="h-sec">왜 케이앤에스인가</h2>
             </div>
           </Reveal>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto justify-center">
             {WHY.map((w, i) => (
               <Reveal key={w.title} delay={i * 100}>
-                <div className="text-center p-6">
+                <div className="text-center p-6 h-full rounded-2xl bg-white shadow-sm border border-black/5">
                   <div className="w-16 h-16 mx-auto rounded-full bg-[var(--color-bg-soft)] flex items-center justify-center text-3xl" aria-hidden="true">{w.icon}</div>
                   <h3 className="h-card mt-4">{w.title}</h3>
                   <p className="mt-2 text-sm text-[var(--color-ink)]/70 leading-relaxed">{w.desc}</p>
