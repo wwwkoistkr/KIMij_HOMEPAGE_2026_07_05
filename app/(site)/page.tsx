@@ -70,23 +70,25 @@ export default async function HomePage() {
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-navy-900)]/70 via-[var(--color-navy-900)]/40 to-[var(--color-navy-900)]" aria-hidden="true" />
-        {/* 블로그 바로가기 버튼 (히어로 왼쪽 위) — 클릭 시 네이버 블로그 새 탭 */}
-        <a
-          href="https://blog.naver.com/ijkim4756"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="블로그 바로가기 (새 탭)"
-          className="group absolute left-4 top-24 lg:left-8 lg:top-28 z-20 inline-flex items-center gap-2 rounded-xl border border-white/25 bg-[var(--color-navy-800)]/85 px-4 py-2.5 text-sm font-bold text-white shadow-lg backdrop-blur transition hover:-translate-y-0.5 hover:border-[var(--color-accent)] hover:bg-[var(--color-navy-700)]/90 hover:text-[var(--color-accent)]"
-        >
-          <span aria-hidden="true">📝</span>
-          <span>블로그 바로가기</span>
-          <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">↗</span>
-        </a>
         <div className="relative container-max section-pad pt-28 lg:pt-36 pb-16 lg:pb-20 grid lg:grid-cols-[1.15fr_.85fr] gap-10 items-center">
           {/* 좌: 카피 */}
           <div className="text-center lg:text-left">
+            {/* 블로그 바로가기 버튼 ("믿을 수 있는 행정 파트너" 배지 바로 위) — 클릭 시 네이버 블로그 새 탭 */}
             <Reveal>
-              <span className="inline-block rounded-full border border-[var(--color-accent)]/60 text-[var(--color-accent)] px-5 py-1.5 text-sm font-semibold tracking-wide mb-7">
+              <a
+                href="https://blog.naver.com/ijkim4756"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="블로그 바로가기 (새 탭)"
+                className="group mb-5 inline-flex items-center gap-2.5 rounded-2xl border border-white/25 bg-[var(--color-navy-800)]/85 px-6 py-3.5 text-base font-bold text-white shadow-lg backdrop-blur transition hover:-translate-y-0.5 hover:border-[var(--color-accent)] hover:bg-[var(--color-navy-700)]/90 hover:text-[var(--color-accent)]"
+              >
+                <span aria-hidden="true" className="text-lg">📝</span>
+                <span>블로그 바로가기</span>
+                <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">↗</span>
+              </a>
+            </Reveal>
+            <Reveal>
+              <span className="block sm:inline-block rounded-full border border-[var(--color-accent)]/60 text-[var(--color-accent)] px-5 py-1.5 text-sm font-semibold tracking-wide mb-7">
                 {s.heroBadge}
               </span>
             </Reveal>
