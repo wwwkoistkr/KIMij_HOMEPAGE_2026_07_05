@@ -20,9 +20,7 @@ const WHY = [
   { icon: '⚡', title: '신속한 처리', desc: '접수 당일 검토를 시작하고, 진행 상황을 단계별로 알려드립니다.' },
   { icon: '🎯', title: '정확한 진단', desc: '착수 전에 요건을 먼저 진단해 불필요한 비용과 시행착오를 막습니다.' },
   { icon: '🌏', title: '글로벌 전문성', desc: '외국인 비자·체류, 귀화, 외국인투자 등 국제 업무에 강합니다.' },
-  { icon: '🔒', title: '철저한 보안', desc: '의뢰인의 개인정보와 서류를 개인정보보호법에 따라 안전하게 관리합니다.' },
-  { icon: '💬', title: '친절한 상담', desc: '어려운 행정 용어도 쉽게 풀어 설명하고, 끝까지 함께합니다.' },
-  { icon: '💰', title: '합리적 비용', desc: '착수 전 예상 비용을 투명하게 안내하여 부담 없이 진행합니다.' }
+  { icon: '🔒', title: '철저한 보안', desc: '의뢰인의 개인정보와 서류를 개인정보보호법에 따라 안전하게 관리합니다.' }
 ];
 
 const PROCESS = [
@@ -172,23 +170,43 @@ export default async function HomePage() {
               <p className="mt-4 text-[var(--color-ink)]/60">필요한 업무를 선택하시면 대상·필요서류·절차를 확인하실 수 있습니다.</p>
             </div>
           </Reveal>
-          {categories.map((cat) => {
+          {categories.map((cat, ci) => {
             const list = services.filter((v) => v.categoryId === cat.id);
             if (!list.length) return null;
             return (
-              <div key={cat.id} className="mb-10 last:mb-0">
-                <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                  <span className="inline-block w-8 h-[3px] bg-[var(--color-accent)]" aria-hidden="true" />
-                  {cat.name}
-                </h3>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div key={cat.id} className="mb-12 last:mb-0">
+                {/* 카테고리 헤더: 번호 + 이름 + 항목 수 배지 */}
+                <Reveal>
+                  <div className="flex items-center gap-3 mb-5">
+                    <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-[var(--color-primary)] text-white text-sm font-extrabold shadow-sm" aria-hidden="true">
+                      {String(ci + 1).padStart(2, '0')}
+                    </span>
+                    <h3 className="font-extrabold text-xl text-[var(--color-navy-900)]">{cat.name}</h3>
+                    <span className="text-xs font-semibold text-[var(--color-primary)] bg-[var(--color-primary)]/10 rounded-full px-2.5 py-1">
+                      {list.length}개 서비스
+                    </span>
+                    <span className="flex-1 h-px bg-gradient-to-r from-[var(--color-line)] to-transparent ml-1" aria-hidden="true" />
+                  </div>
+                </Reveal>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {list.map((v, i) => (
                     <Reveal key={v.id} delay={i * 80}>
-                      <Link href={`/services/${v.slug}`} className="card p-6 flex flex-col h-full group">
-                        <span className="text-3xl" aria-hidden="true">{v.icon}</span>
-                        <h4 className="h-card mt-3 group-hover:text-[var(--color-primary)] transition-colors">{v.title}</h4>
+                      <Link
+                        href={`/services/${v.slug}`}
+                        className="service-card group relative flex flex-col h-full overflow-hidden rounded-2xl bg-white border border-[var(--color-line)] p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_44px_rgba(10,15,30,.14)] hover:border-[var(--color-primary)]/40"
+                      >
+                        {/* 상단 액센트 바 (hover 시 나타남) */}
+                        <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100" aria-hidden="true" />
+                        {/* 아이콘 원형 배지 */}
+                        <span className="flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--color-bg-soft)] text-3xl transition-colors duration-300 group-hover:bg-[var(--color-primary)]/10" aria-hidden="true">
+                          {v.icon}
+                        </span>
+                        <h4 className="h-card mt-4 group-hover:text-[var(--color-primary)] transition-colors">{v.title}</h4>
                         <p className="mt-2 text-sm text-[var(--color-ink)]/70 leading-relaxed flex-1">{v.summary}</p>
-                        <span className="mt-4 text-sm font-bold text-[var(--color-primary)]">자세히 보기 →</span>
+                        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[var(--color-primary)]">
+                          자세히 보기
+                          <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">→</span>
+                        </span>
                       </Link>
                     </Reveal>
                   ))}
@@ -247,10 +265,10 @@ export default async function HomePage() {
               <h2 className="h-sec">왜 케이앤에스인가</h2>
             </div>
           </Reveal>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto justify-center">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {WHY.map((w, i) => (
               <Reveal key={w.title} delay={i * 100}>
-                <div className="text-center p-6 h-full rounded-2xl bg-white shadow-sm border border-black/5">
+                <div className="text-center p-6">
                   <div className="w-16 h-16 mx-auto rounded-full bg-[var(--color-bg-soft)] flex items-center justify-center text-3xl" aria-hidden="true">{w.icon}</div>
                   <h3 className="h-card mt-4">{w.title}</h3>
                   <p className="mt-2 text-sm text-[var(--color-ink)]/70 leading-relaxed">{w.desc}</p>
