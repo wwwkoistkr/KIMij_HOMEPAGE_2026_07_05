@@ -170,50 +170,41 @@ export default async function HomePage() {
               <p className="mt-4 text-[var(--color-ink)]/60">필요한 업무를 선택하시면 대상·필요서류·절차를 확인하실 수 있습니다.</p>
             </div>
           </Reveal>
-          {categories.map((cat, ci) => {
-            const list = services.filter((v) => v.categoryId === cat.id);
-            if (!list.length) return null;
-            return (
-              <div key={cat.id} className="mb-12 last:mb-0">
-                {/* 카테고리 헤더: 번호 + 이름 + 항목 수 배지 */}
-                <Reveal>
-                  <div className="flex items-center gap-3 mb-5">
-                    <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-[var(--color-primary)] text-white text-sm font-extrabold shadow-sm" aria-hidden="true">
-                      {String(ci + 1).padStart(2, '0')}
+          {/* 전체 서비스를 3열(3x3) 그리드로 배치 */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((v, i) => {
+              const cat = categories.find((c) => c.id === v.categoryId);
+              return (
+                <Reveal key={v.id} delay={(i % 3) * 80}>
+                  <Link
+                    href={`/services/${v.slug}`}
+                    className="service-card group relative flex flex-col h-full overflow-hidden rounded-2xl bg-white border border-[var(--color-line)] p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_44px_rgba(10,15,30,.14)] hover:border-[var(--color-primary)]/40"
+                  >
+                    {/* 상단 액센트 바 (hover 시 나타남) */}
+                    <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100" aria-hidden="true" />
+                    <div className="flex items-start justify-between gap-3">
+                      {/* 아이콘 원형 배지 */}
+                      <span className="flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--color-bg-soft)] text-3xl transition-colors duration-300 group-hover:bg-[var(--color-primary)]/10" aria-hidden="true">
+                        {v.icon}
+                      </span>
+                      {/* 카테고리 태그 */}
+                      {cat && (
+                        <span className="mt-1 text-xs font-semibold text-[var(--color-primary)] bg-[var(--color-primary)]/10 rounded-full px-2.5 py-1 whitespace-nowrap">
+                          {cat.name}
+                        </span>
+                      )}
+                    </div>
+                    <h4 className="h-card mt-4 group-hover:text-[var(--color-primary)] transition-colors">{v.title}</h4>
+                    <p className="mt-2 text-sm text-[var(--color-ink)]/70 leading-relaxed flex-1">{v.summary}</p>
+                    <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[var(--color-primary)]">
+                      자세히 보기
+                      <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">→</span>
                     </span>
-                    <h3 className="font-extrabold text-xl text-[var(--color-navy-900)]">{cat.name}</h3>
-                    <span className="text-xs font-semibold text-[var(--color-primary)] bg-[var(--color-primary)]/10 rounded-full px-2.5 py-1">
-                      {list.length}개 서비스
-                    </span>
-                    <span className="flex-1 h-px bg-gradient-to-r from-[var(--color-line)] to-transparent ml-1" aria-hidden="true" />
-                  </div>
+                  </Link>
                 </Reveal>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {list.map((v, i) => (
-                    <Reveal key={v.id} delay={i * 80}>
-                      <Link
-                        href={`/services/${v.slug}`}
-                        className="service-card group relative flex flex-col h-full overflow-hidden rounded-2xl bg-white border border-[var(--color-line)] p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_44px_rgba(10,15,30,.14)] hover:border-[var(--color-primary)]/40"
-                      >
-                        {/* 상단 액센트 바 (hover 시 나타남) */}
-                        <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100" aria-hidden="true" />
-                        {/* 아이콘 원형 배지 */}
-                        <span className="flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--color-bg-soft)] text-3xl transition-colors duration-300 group-hover:bg-[var(--color-primary)]/10" aria-hidden="true">
-                          {v.icon}
-                        </span>
-                        <h4 className="h-card mt-4 group-hover:text-[var(--color-primary)] transition-colors">{v.title}</h4>
-                        <p className="mt-2 text-sm text-[var(--color-ink)]/70 leading-relaxed flex-1">{v.summary}</p>
-                        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[var(--color-primary)]">
-                          자세히 보기
-                          <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">→</span>
-                        </span>
-                      </Link>
-                    </Reveal>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </section>
 
